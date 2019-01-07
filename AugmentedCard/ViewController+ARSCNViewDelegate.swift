@@ -92,7 +92,33 @@ extension ViewController: ARSCNViewDelegate {
     }
     
     func displayWebView(on rootNode: SCNNode, xOffset: CGFloat) {
-        
+        // Xcode yells at us about the deprecation of UIWebView in iOS 12.0, but there is currently
+        // a bug that does now allow us to use a WKWebView as a texture for our webViewNode
+        // Note that UIWebViews should only be instantiated on the main thread!
+        DispatchQueue.main.async {
+            let request = URLRequest(url: URL(string: "https://www.worldwildlife.org/species/african-elephant#overview")!)
+            let webView = UIWebView(frame: CGRect(x: 0, y: 0, width: 400, height: 672))
+            webView.loadRequest(request)
+            
+            let webViewPlane = SCNPlane(width: xOffset, height: xOffset * 1.4)
+            webViewPlane.cornerRadius = 0.25
+            
+            let webViewNode = SCNNode(geometry: webViewPlane)
+            
+            // Set the web view as webViewPlane's primary texture
+            webViewNode.geometry?.firstMaterial?.diffuse.contents = webView
+            webViewNode.position.z -= 0.5
+            webViewNode.opacity = 0
+            
+            rootNode.addChildNode(webViewNode)
+            webViewNode.runAction(.sequence([
+                .wait(duration: 3.0),
+                .fadeOpacity(to: 1.0, duration: 1.5),
+                .moveBy(x: xOffset * 1.1, y: 0, z: -0.05, duration: 1.5),
+                .moveBy(x: 0, y: 0, z: -0.05, duration: 0.2)
+                ])
+            )
+        }
     }
     
     func highlightDetection(on rootNode: SCNNode, width: CGFloat, height: CGFloat, completionHandler block: @escaping (() -> Void)) {
