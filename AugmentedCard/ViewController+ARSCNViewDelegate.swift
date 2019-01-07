@@ -15,7 +15,41 @@ extension ViewController: ARSCNViewDelegate {
     // MARK: - ARSCNViewDelegate
     
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
+        guard let imageAnchor = anchor as? ARImageAnchor else { return }
         
+        // Delegate rendering tasks to our `updateQueue` thread to keep things thread-safe!
+        updateQueue.async {
+            let physicalWidth = imageAnchor.referenceImage.physicalSize.width
+            let physicalHeight = imageAnchor.referenceImage.physicalSize.height
+            
+            // Create a plane geometry to visualize the initial position of the detected image
+            let mainPlane = SCNPlane(width: physicalWidth, height: physicalHeight)
+            
+            // This bit is important. It helps us create occlusion so virtual things stay hidden behind the detected image
+            mainPlane.firstMaterial?.colorBufferWriteMask = .alpha
+            
+            // Create a SceneKit root node with the plane geometry to attach to the scene graph
+            // This node will hold the virtual UI in place
+            let mainNode = SCNNode(geometry: mainPlane)
+            mainNode.eulerAngles.x = -.pi / 2
+            mainNode.renderingOrder = -1
+            mainNode.opacity = 1
+            
+            // Add the plane visualization to the scene
+            node.addChildNode(mainNode)
+            
+            // Perform a quick animation to visualize the plane on which the image was detected.
+            // We want to let our users know that the app is responding to the tracked image.
+            self.highlightDetection(on: mainNode, width: physicalWidth, height: physicalHeight, completionHandler: {
+                
+                // Introduce virtual content
+                self.displayDetailView(on: mainNode, xOffset: physicalWidth)
+                
+                // Animate the WebView to the right
+                self.displayWebView(on: mainNode, xOffset: physicalWidth)
+                
+            })
+        }
     }
     
     func session(_ session: ARSession, didFailWithError error: Error) {
