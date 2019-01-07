@@ -43,10 +43,9 @@ class ViewController: UIViewController {
         }
         
         // Create a session configuration
-        let configuration = ARImageTrackingConfiguration().apply {
-            $0.trackingImages = refImages
-            $0.maximumNumberOfTrackedImages = 1
-        }
+        let configuration = ARImageTrackingConfiguration()
+        configuration.trackingImages = refImages
+        configuration.maximumNumberOfTrackedImages = 1
         
         // Run the view's session
         sceneView.session.run(configuration, options: ARSession.RunOptions(arrayLiteral: [.resetTracking, .removeExistingAnchors]))

@@ -22,17 +22,15 @@ extension ViewController: ARSCNViewDelegate {
             let physicalHeight = imageAnchor.referenceImage.physicalSize.height
             
             // Create a plane geometry to visualize the initial position of the detected image
-            let mainPlane = SCNPlane(width: physicalWidth, height: physicalHeight).apply {
-                $0.firstMaterial?.colorBufferWriteMask = .alpha
-            }
+            let mainPlane = SCNPlane(width: physicalWidth, height: physicalHeight)
+            mainPlane.firstMaterial?.colorBufferWriteMask = .alpha
             
             // Create a SceneKit root node with the plane geometry to attach to the scene graph
             // This node will hold the virtual UI in place
-            let mainNode = SCNNode(geometry: mainPlane).apply {
-                $0.eulerAngles.x = -.pi / 2
-                $0.renderingOrder = -1
-                $0.opacity = 1
-            }
+            let mainNode = SCNNode(geometry: mainPlane)
+            mainNode.eulerAngles.x = -.pi / 2
+            mainNode.renderingOrder = -1
+            mainNode.opacity = 1
             
             // Add the plane visualization to the scene
             node.addChildNode(mainNode)
@@ -69,16 +67,16 @@ extension ViewController: ARSCNViewDelegate {
     // MARK: - SceneKit Helpers
     
     func displayDetailView(on rootNode: SCNNode, xOffset: CGFloat) {
-        let detailPlane = SCNPlane(width: xOffset, height: xOffset * 1.4).apply{ $0.cornerRadius = 0.25 }
-        let detailNode = SCNNode(geometry: detailPlane).apply {
-            $0.geometry?.firstMaterial?.diffuse.contents = SKScene(fileNamed: "DetailScene")
-            
-            // Due to the origin of the iOS coordinate system, SCNMaterial's content appears upside down, so flip the y-axis.
-            $0.geometry?.firstMaterial?.diffuse.contentsTransform = SCNMatrix4Translate(SCNMatrix4MakeScale(1, -1, 1), 0, 1, 0)
-            $0.geometry?.firstMaterial?.isDoubleSided = true
-            $0.position.z -= 0.5
-            $0.opacity = 0
-        }
+        let detailPlane = SCNPlane(width: xOffset, height: xOffset * 1.4)
+        detailPlane.cornerRadius = 0.25
+        
+        let detailNode = SCNNode(geometry: detailPlane)
+        detailNode.geometry?.firstMaterial?.diffuse.contents = SKScene(fileNamed: "DetailScene")
+        
+        // Due to the origin of the iOS coordinate system, SCNMaterial's content appears upside down, so flip the y-axis.
+        detailNode.geometry?.firstMaterial?.diffuse.contentsTransform = SCNMatrix4Translate(SCNMatrix4MakeScale(1, -1, 1), 0, 1, 0)
+        detailNode.position.z -= 0.5
+        detailNode.opacity = 0
         
         rootNode.addChildNode(detailNode)
         detailNode.runAction(.sequence([
@@ -99,13 +97,14 @@ extension ViewController: ARSCNViewDelegate {
             let webView = UIWebView(frame: CGRect(x: 0, y: 0, width: 400, height: 672))
             webView.loadRequest(request)
                         
-            let webViewPlane = SCNPlane(width: xOffset, height: xOffset * 1.4).apply { $0.cornerRadius = 0.25 }
-            let webViewNode = SCNNode(geometry: webViewPlane).apply {
-                $0.geometry?.firstMaterial?.diffuse.contents = webView
-                $0.geometry?.firstMaterial?.isDoubleSided = true
-                $0.position.z -= 0.5
-                $0.opacity = 0
-            }
+            let webViewPlane = SCNPlane(width: xOffset, height: xOffset * 1.4)
+            webViewPlane.cornerRadius = 0.25
+            
+            let webViewNode = SCNNode(geometry: webViewPlane)
+            webViewNode.geometry?.firstMaterial?.diffuse.contents = webView
+            webViewNode.position.z -= 0.5
+            webViewNode.opacity = 0
+    
             
             rootNode.addChildNode(webViewNode)
             webViewNode.runAction(.sequence([
@@ -119,12 +118,11 @@ extension ViewController: ARSCNViewDelegate {
     }
     
     func highlightDetection(on rootNode: SCNNode, width: CGFloat, height: CGFloat, completionHandler block: @escaping (() -> Void)) {
-        let planeNode = SCNNode(geometry: SCNPlane(width: width, height: height)).apply {
-            $0.geometry?.firstMaterial?.isDoubleSided = true
-            $0.geometry?.firstMaterial?.diffuse.contents = UIColor.white
-            $0.position.z += 0.1
-            $0.opacity = 0
-        }
+        let planeNode = SCNNode(geometry: SCNPlane(width: width, height: height))
+        planeNode.geometry?.firstMaterial?.isDoubleSided = true
+        planeNode.geometry?.firstMaterial?.diffuse.contents = UIColor.white
+        planeNode.position.z += 0.1
+        planeNode.opacity = 0
         
         rootNode.addChildNode(planeNode)
         planeNode.runAction(self.imageHighlightAction) {

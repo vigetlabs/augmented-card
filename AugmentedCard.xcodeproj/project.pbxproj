@@ -14,7 +14,6 @@
 		ED0C3400219967CC009173F3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ED0C33FE219967CC009173F3 /* LaunchScreen.storyboard */; };
 		ED0C3408219967F6009173F3 /* ViewController+ARSCNViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED0C3407219967F6009173F3 /* ViewController+ARSCNViewDelegate.swift */; };
 		ED0C340A21996810009173F3 /* DetailScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = ED0C340921996810009173F3 /* DetailScene.sks */; };
-		ED59721D21CAC8D100F75F59 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED59721C21CAC8D100F75F59 /* Extensions.swift */; };
 		EDD6DEDF21D40BF700BEE2AA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EDD6DEDE21D4090900BEE2AA /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
@@ -28,7 +27,6 @@
 		ED0C3401219967CC009173F3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ED0C3407219967F6009173F3 /* ViewController+ARSCNViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+ARSCNViewDelegate.swift"; sourceTree = "<group>"; };
 		ED0C340921996810009173F3 /* DetailScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = DetailScene.sks; sourceTree = "<group>"; };
-		ED59721C21CAC8D100F75F59 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		EDD6DEDE21D4090900BEE2AA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -63,7 +61,6 @@
 			isa = PBXGroup;
 			children = (
 				ED0C33F3219967CC009173F3 /* AppDelegate.swift */,
-				ED59721C21CAC8D100F75F59 /* Extensions.swift */,
 				ED0C33F7219967CC009173F3 /* ViewController.swift */,
 				ED0C3407219967F6009173F3 /* ViewController+ARSCNViewDelegate.swift */,
 				EDD6DEDD21D408EA00BEE2AA /* Resources */,
@@ -160,7 +157,6 @@
 				ED0C3408219967F6009173F3 /* ViewController+ARSCNViewDelegate.swift in Sources */,
 				ED0C33F8219967CC009173F3 /* ViewController.swift in Sources */,
 				ED0C33F4219967CC009173F3 /* AppDelegate.swift in Sources */,
-				ED59721D21CAC8D100F75F59 /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
