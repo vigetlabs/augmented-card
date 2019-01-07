@@ -70,7 +70,25 @@ extension ViewController: ARSCNViewDelegate {
     // MARK: - SceneKit Helpers
     
     func displayDetailView(on rootNode: SCNNode, xOffset: CGFloat) {
+        let detailPlane = SCNPlane(width: xOffset, height: xOffset * 1.4)
+        detailPlane.cornerRadius = 0.25
         
+        let detailNode = SCNNode(geometry: detailPlane)
+        detailNode.geometry?.firstMaterial?.diffuse.contents = SKScene(fileNamed: "DetailScene")
+        
+        // Due to the origin of the iOS coordinate system, SCNMaterial's content appears upside down, so flip the y-axis.
+        detailNode.geometry?.firstMaterial?.diffuse.contentsTransform = SCNMatrix4Translate(SCNMatrix4MakeScale(1, -1, 1), 0, 1, 0)
+        detailNode.position.z -= 0.5
+        detailNode.opacity = 0
+        
+        rootNode.addChildNode(detailNode)
+        detailNode.runAction(.sequence([
+            .wait(duration: 1.0),
+            .fadeOpacity(to: 1.0, duration: 1.5),
+            .moveBy(x: xOffset * -1.1, y: 0, z: -0.05, duration: 1.5),
+            .moveBy(x: 0, y: 0, z: -0.05, duration: 0.2)
+            ])
+        )
     }
     
     func displayWebView(on rootNode: SCNNode, xOffset: CGFloat) {
