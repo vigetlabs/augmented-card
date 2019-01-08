@@ -104,7 +104,6 @@ extension ViewController: ARSCNViewDelegate {
             webViewNode.geometry?.firstMaterial?.diffuse.contents = webView
             webViewNode.position.z -= 0.5
             webViewNode.opacity = 0
-    
             
             rootNode.addChildNode(webViewNode)
             webViewNode.runAction(.sequence([
@@ -119,7 +118,6 @@ extension ViewController: ARSCNViewDelegate {
     
     func highlightDetection(on rootNode: SCNNode, width: CGFloat, height: CGFloat, completionHandler block: @escaping (() -> Void)) {
         let planeNode = SCNNode(geometry: SCNPlane(width: width, height: height))
-        planeNode.geometry?.firstMaterial?.isDoubleSided = true
         planeNode.geometry?.firstMaterial?.diffuse.contents = UIColor.white
         planeNode.position.z += 0.1
         planeNode.opacity = 0
